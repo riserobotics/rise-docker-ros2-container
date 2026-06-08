@@ -53,17 +53,8 @@ RUN sed -i 's/OSH_THEME=".*"/OSH_THEME="robbyrussell"/' /root/.bashrc
 RUN locale-gen en_US en_US.UTF-8 
 RUN update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
 
-# Register the realsense server's public key
-#RUN mkdir -p /etc/apt/keyrings && \
-#    curl -sSf https://librealsense.realsenseai.com/Debian/librealsenseai.asc | \
-#    gpg --dearmor | sudo tee /etc/apt/keyrings/librealsenseai.gpg > /dev/null
-# Add the realsense server to the list of repositories:
-#RUN echo "deb [signed-by=/etc/apt/keyrings/librealsenseai.gpg] https://librealsense.realsenseai.com/Debian/apt-repo `lsb_release -cs` main" | \
-#    tee /etc/apt/sources.list.d/librealsense.list && \
-#    apt-get update
-#RUN apt-get install -y librealsense2-dkms librealsense2-utils
 # Install IntelRealSense drivers for camera
-RUN git clone https://github.com/IntelRealSense/librealsense.git -b r/2.58.1 /tmp/librealsense
+RUN git clone https://github.com/riserobotics/librealsense.git -b r/2.58.1 /tmp/librealsense
 RUN cd /tmp/librealsense \
     ./scripts/setup_udev_rules.sh && \
     mkdir build && \
@@ -121,7 +112,7 @@ RUN rosdep init && rosdep update
 
 #RUN apt install -y ros-${ROS_DISTRO}-realsense2-*
 # Installing Realsense ROS Wrapper
-RUN git clone https://github.com/realsenseai/realsense-ros.git -b r/4.58.1 /tmp/realsense-ros
+RUN git clone https://github.com/riserobotics/realsense-ros.git -b r/4.58.1 /tmp/realsense-ros
 RUN cd /tmp/realsense-ros && \
     . /opt/ros/${ROS_DISTRO}/setup.sh && \
     rosdep install -i --from-path . --rosdistro $ROS_DISTRO --skip-keys=librealsense2 -y && \
