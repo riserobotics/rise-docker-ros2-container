@@ -6,6 +6,7 @@ ament-cmake-gtest
 ament-cmake-pytest
 ament-lint-auto
 ament-lint-common
+rviz2
 
 # -------------------------
 # Vision Package
