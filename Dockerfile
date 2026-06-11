@@ -21,6 +21,10 @@ FROM ubuntu:24.04
 # Set ROS distribution
 ARG ROS_DISTRO=jazzy
 
+# Determine whether the newest version should be built from sources
+# , or whether the apt version of the Realsense software should be used
+ARG RS_NEWEST="true"
+
 # Set environment variables
 ENV DEBIAN_FRONTEND=noninteractive \
     LANG=en_US.UTF-8 \
@@ -53,9 +57,11 @@ RUN sed -i 's/OSH_THEME=".*"/OSH_THEME="robbyrussell"/' /root/.bashrc
 RUN locale-gen en_US en_US.UTF-8 
 RUN update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
 
+
 # Install IntelRealSense drivers for camera
-RUN git clone https://github.com/riserobotics/librealsense.git -b r/2.58.1 /tmp/librealsense
-RUN cd /tmp/librealsense \
+RUN if [ "$RS_NEWEST" = "true" ]; then \
+    git clone https://github.com/riserobotics/librealsense.git -b r/2.58.1 /tmp/librealsense && \
+    cd /tmp/librealsense \
     ./scripts/setup_udev_rules.sh && \
     mkdir build && \
     cd build && \
@@ -65,7 +71,19 @@ RUN cd /tmp/librealsense \
         -DBUILD_WITH_DDS=ON && \
     make -j$(nproc) && \
     make install && \
-    ldconfig
+    ldconfig; \
+    fi
+RUN if [ "$RS_NEWEST" != "true" ]; then \
+    mkdir -p /etc/apt/keyrings && \
+    curl -sSf https://librealsense.realsenseai.com/Debian/librealsenseai.asc | \
+    gpg --dearmor | sudo tee /etc/apt/keyrings/librealsenseai.gpg > /dev/null  && \
+    echo "deb [signed-by=/etc/apt/keyrings/librealsenseai.gpg] https://librealsense.realsenseai.com/Debian/apt-repo `lsb_release -cs` main" | \
+    tee /etc/apt/sources.list.d/librealsense.list && \
+    apt-get update && \
+    apt-get install librealsense2-dkms && \
+    apt-get install librealsense2-utils; \
+    fi
+
 
 # =================== Building ROS 2 ======================= #
 
@@ -110,14 +128,17 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends  \
 # Init rosdep and update it
 RUN rosdep init && rosdep update
 
-#RUN apt install -y ros-${ROS_DISTRO}-realsense2-*
 # Installing Realsense ROS Wrapper
-RUN git clone https://github.com/riserobotics/realsense-ros.git -b r/4.58.1 /tmp/realsense-ros
-RUN cd /tmp/realsense-ros && \
+RUN if [ "$RS_NEWEST" = "true" ]; then \
+    git clone https://github.com/riserobotics/realsense-ros.git -b r/4.58.1 /tmp/realsense-ros && \
+    cd /tmp/realsense-ros && \
     . /opt/ros/${ROS_DISTRO}/setup.sh && \
     rosdep install -i --from-path . --rosdistro $ROS_DISTRO --skip-keys=librealsense2 -y && \
-    colcon build --install-base /opt/realsense-ros --cmake-args -DBUILD_WITH_DDS=ON
-
+    colcon build --install-base /opt/realsense-ros --cmake-args -DBUILD_WITH_DDS=ON; \
+    fi
+RUN if [ "$RS_NEWEST" != "true" ]; then \
+    apt install -y ros-${ROS_DISTRO}-realsense2-*; \
+    fi
 # ================ Setting Up Workspaces ==================== #
 
 # Install user python packages from `python_requirements` file
