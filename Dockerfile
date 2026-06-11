@@ -78,7 +78,7 @@ RUN mkdir -p /etc/apt/keyrings
 RUN curl -sSf https://librealsense.realsenseai.com/Debian/librealsenseai.asc | \
     gpg --dearmor | tee /etc/apt/keyrings/librealsenseai.gpg > /dev/null
 RUN echo "deb [signed-by=/etc/apt/keyrings/librealsenseai.gpg] https://librealsense.realsenseai.com/Debian/apt-repo `lsb_release -cs` main" | \
-RUN tee /etc/apt/sources.list.d/librealsense.list
+     tee /etc/apt/sources.list.d/librealsense.list
 RUN apt-get update
 RUN apt-get install librealsense2-dkms -y
 RUN apt-get install librealsense2-utils -y
