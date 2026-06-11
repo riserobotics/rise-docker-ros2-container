@@ -23,7 +23,7 @@ ARG ROS_DISTRO=jazzy
 
 # Determine whether the newest version should be built from sources
 # , or whether the apt version of the Realsense software should be used
-ARG RS_NEWEST="true"
+ARG RS_NEWEST="false"
 
 # Set environment variables
 ENV DEBIAN_FRONTEND=noninteractive \
