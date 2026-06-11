@@ -80,8 +80,8 @@ RUN if [ "$RS_NEWEST" != "true" ]; then \
     echo "deb [signed-by=/etc/apt/keyrings/librealsenseai.gpg] https://librealsense.realsenseai.com/Debian/apt-repo `lsb_release -cs` main" | \
     tee /etc/apt/sources.list.d/librealsense.list && \
     apt-get update && \
-    apt-get install librealsense2-dkms && \
-    apt-get install librealsense2-utils; \
+    apt-get install librealsense2-dkms -y && \
+    apt-get install librealsense2-utils -y; \
     fi
 
 
