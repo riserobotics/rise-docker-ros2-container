@@ -75,7 +75,8 @@ RUN git clone https://github.com/ANYbotics/kindr.git /tmp/kindr && \
     cd build && \
     cmake ../ -DUSE_CMAKE=true && \
     make -j$(nproc) && \
-    make install
+    make install && \
+    ldconfig
 
 # =================== Building ROS 2 ======================= #
 
