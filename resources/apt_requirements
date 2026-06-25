@@ -1,4 +1,2 @@
 build-essential
 cmake
-libpcl-dev # for elevation_mapping
-libeigen3-dev # for elevation_mapping
