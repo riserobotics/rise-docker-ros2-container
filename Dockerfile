@@ -69,7 +69,7 @@ RUN git clone https://github.com/riserobotics/librealsense.git -b r/2.58.1 /tmp/
     ldconfig
 
 # Install kindr for elevation_mapping
-RUN apt-get install libpcl-dev libeigen3-dev
+RUN apt-get install libpcl-dev libeigen3-dev -y --no-install-recommends
 RUN git clone https://github.com/ANYbotics/kindr.git /tmp/kindr && \
     cd /tmp/kindr && \
     mkdir build && \
