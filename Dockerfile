@@ -41,7 +41,7 @@ COPY ./resources/apt_requirements /tmp
 RUN sed -i 's/#.*$//g' /tmp/apt_requirements
 # Remove all new lines in requirements file
 RUN sed -i '/^$/d' /tmp/apt_requirements
-RUN xargs -a /tmp/apt_requirements -r apt-get install -y --no-install-recommends || true
+RUN apt-get update && xargs -a /tmp/apt_requirements -r apt-get install -y --no-install-recommends || true
 RUN rm /tmp/apt_requirements
 
 # Setup oh-my-bash and robbyrussell theme
@@ -69,7 +69,7 @@ RUN git clone https://github.com/riserobotics/librealsense.git -b r/2.58.1 /tmp/
     ldconfig
 
 # Install kindr for elevation_mapping
-RUN apt-get install libpcl-dev libeigen3-dev -y --no-install-recommends
+RUN apt-get update && apt-get install libpcl-dev libeigen3-dev -y --no-install-recommends
 RUN git clone https://github.com/ANYbotics/kindr.git /tmp/kindr && \
     cd /tmp/kindr && \
     mkdir build && \
