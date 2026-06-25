@@ -68,6 +68,14 @@ RUN git clone https://github.com/riserobotics/librealsense.git -b r/2.58.1 /tmp/
     make install && \
     ldconfig
 
+# Install kindr for elevation_mapping
+RUN git clone https://github.com/ANYbotics/kindr.git /tmp/kindr && \
+    cd /tmp/kindr && \
+    mkdir build && \
+    cd build && \
+    cmake ../ -DUSE_CMAKE=true && \
+    make -j$(nproc) && \
+    make install
 
 # =================== Building ROS 2 ======================= #
 
