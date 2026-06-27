@@ -84,6 +84,15 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends  \
 # Init rosdep and update it
 RUN rosdep init && rosdep update
 
+# =================== Ultralytics CPU ====================== #
+
+RUN python3 -m pip install --no-cache-dir --break-system-packages \
+        torch torchvision torchaudio \
+        --index-url https://download.pytorch.org/whl/cpu && \
+    python3 -m pip install --no-cache-dir --break-system-packages \
+        "numpy<2" \
+        "opencv-python-headless<4.12" \
+        ultralytics-opencv-headless
 
 # ================ Setting Up Workspaces ==================== #
 
