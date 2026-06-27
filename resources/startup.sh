@@ -10,8 +10,8 @@
 
 # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-# Get absolute path of project folder in container (project must have "rise-os-core" in it's name)
-PROJECT_PATH=$(mount | grep rise-os-core | awk '{print $3}')
+# Get absolute path of project folder in container (project must have "cheros" in it's name)
+PROJECT_PATH=$(mount | grep cheros | awk '{print $3}')
 
 
 # ------ Enable git support in container ------
@@ -48,7 +48,7 @@ git config --global --add safe.directory .
 git config core.fileMode false
 
 # Move to source folder
-cd $PROJECT_PATH/riseos_ws/src
+cd $PROJECT_PATH/cheros_ws/src
 
 # Make top level shell scripts executable via chmod (e.g setup_env.sh)
 echo "Scripts made executable with chmod:"
