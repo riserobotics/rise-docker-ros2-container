@@ -4,9 +4,9 @@
 # % Author: Furkan M. Lafci
 # % Created: 2025-11-21
 # %
-# % Information: Dockerfile for building ROS2-Jazzy image for the neuroTUM 'CHEROS' project
+# % Information: Dockerfile for building ROS2-Jazzy image for rise-os-core
 # %
-# % Usage: docker build -t cheros-os:latest -f Dockerfile resources
+# % Usage: docker build -t rise-os:latest -f Dockerfile resources
 # %            
 # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -84,15 +84,6 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends  \
 # Init rosdep and update it
 RUN rosdep init && rosdep update
 
-# =================== Ultralytics CPU ====================== #
-
-RUN python3 -m pip install --no-cache-dir --break-system-packages \
-        torch torchvision torchaudio \
-        --index-url https://download.pytorch.org/whl/cpu && \
-    python3 -m pip install --no-cache-dir --break-system-packages \
-        "numpy<2" \
-        "opencv-python-headless<4.12" \
-        ultralytics-opencv-headless
 
 # ================ Setting Up Workspaces ==================== #
 
@@ -106,10 +97,10 @@ RUN rm /tmp/python_requirements
 CMD [ "bash" ]
 
 # Set working directory
-WORKDIR /workspaces/cheros
+WORKDIR /workspaces/rise-os-core
 
 # Source ROS project workspace
-RUN echo 'if [ -f /workspaces/cheros/cheros_ws/install/setup.bash ]; then source /workspaces/cheros/cheros_ws/install/setup.bash; fi' >> /root/.bashrc
+RUN echo 'if [ -f /workspaces/rise-os-core/riseos_ws/install/setup.bash ]; then source /workspaces/rise-os-core/riseos_ws/install/setup.bash; fi' >> /root/.bashrc
 
 # Start with startup script
 COPY ./resources/startup.sh /tmp/startup.sh

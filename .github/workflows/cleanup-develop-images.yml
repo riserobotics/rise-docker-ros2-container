@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 env: 
-  PACKAGE_NAME: cheros-os
+  PACKAGE_NAME: rise-os
 
 jobs:
   cleanup-develop-images:

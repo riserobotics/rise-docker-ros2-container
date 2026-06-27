@@ -63,7 +63,7 @@ echo
 echo "Building for AMD64..."
 docker buildx build \
     --platform linux/amd64 \
-    -t cheros-os:amd64 \
+    -t rise-os:amd64 \
     . 
 
 # Capture exit code
@@ -75,7 +75,7 @@ sleep 1
 echo "Building for ARM64..."
 docker buildx build \
     --platform linux/arm64 \
-    -t cheros-os:arm64 \
+    -t rise-os:arm64 \
     . 
 
 ARM64_EXIT_CODE=$?
