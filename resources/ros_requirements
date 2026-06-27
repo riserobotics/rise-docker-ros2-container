@@ -15,3 +15,4 @@ rtabmap-ros # for odometry and slam
 
 pcl-conversions # elevation_mapping
 pcl-ros # elevation_mapping
+grid_map # elevation_mapping
