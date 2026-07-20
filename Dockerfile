@@ -57,7 +57,7 @@ RUN update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
 # Install IntelRealSense drivers for camera
 RUN git clone https://github.com/riserobotics/librealsense.git -b r/2.58.1 /tmp/librealsense && \
     cd /tmp/librealsense && \
-    ./scripts/setup_udev_rules.sh && \
+    #./scripts/setup_udev_rules.sh && \
     mkdir build && \
     cd build && \
     cmake ../ \
