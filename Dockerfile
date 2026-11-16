@@ -90,7 +90,8 @@ RUN rosdep init && rosdep update
 
 # Install user python packages from `python_requirements` file
 COPY ./resources/python_requirements /tmp
-RUN pip install --no-cache-dir --break-system-packages -r /tmp/python_requirements
+RUN pip install --no-cache-dir --break-system-packages --ignore-installed packaging && \
+    pip install --no-cache-dir --break-system-packages -r /tmp/python_requirements
 RUN rm /tmp/python_requirements
 
 # Foxglove bridge WebSocket port
