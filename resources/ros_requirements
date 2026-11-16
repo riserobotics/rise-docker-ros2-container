@@ -6,3 +6,4 @@ ament-cmake-gtest
 ament-cmake-pytest
 ament-lint-auto
 ament-lint-common
+foxglove-bridge
