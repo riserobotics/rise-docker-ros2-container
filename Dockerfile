@@ -93,6 +93,9 @@ COPY ./resources/python_requirements /tmp
 RUN pip install --no-cache-dir --break-system-packages -r /tmp/python_requirements
 RUN rm /tmp/python_requirements
 
+# Foxglove bridge WebSocket port
+EXPOSE 8765
+
 # Set default shell to bash
 CMD [ "bash" ]
 
