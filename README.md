@@ -53,3 +53,26 @@ docker exec -it <container_name> /bin/zsh
 ```
 
 Note: The container uses ZSH with Powerlevel10k theme by default.
+
+## Foxglove
+
+The image ships with `foxglove_bridge`, which exposes ROS 2 topics to [Foxglove](https://foxglove.dev) over a WebSocket on port 8765. 
+Publish the port when you start the container (the rise-os-core Dev-Container already has this configured):
+
+```bash
+docker run -it --rm -p 8765:8765 ghcr.io/riserobotics/rise-os:latest
+```
+
+or
+
+```bash
+docker run -it --rm -p --net=host ghcr.io/riserobotics/rise-os:latest
+```
+
+Inside the container, start the bridge:
+
+```bash
+ros2 launch foxglove_bridge foxglove_bridge_launch.xml
+```
+
+Then open Foxglove on your machine, choose "Open connection", select "Foxglove WebSocket" and connect to `ws://localhost:8765`.
